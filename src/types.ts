@@ -55,6 +55,18 @@ export interface AdminStats {
     confidence: number;
     date: string;
   }[];
+  databaseStatus?: {
+    connected: boolean;
+    mode: string;
+    databaseName: string;
+    hasUri: boolean;
+    records: {
+      users: number;
+      predictions: number;
+      diseases: number;
+      recommendations: number;
+    };
+  };
   modelPerformance: {
     accuracy: number;
     precision: number;

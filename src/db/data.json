@@ -10,6 +10,15 @@
   ],
   "predictions": [
     {
+      "PredictionID": "4ba4e03c-6036-4089-a50b-ca99785e343d",
+      "UserID": "ebfa168f-2f05-4321-abf1-baca75d00326",
+      "OriginalInput": "[Age: 28, Gender: male] I have a very high fever, intense chills, headache, and severe muscle pain.",
+      "ExtractedSymptoms": "[\"high_fever\",\"chills\",\"headache\",\"muscle_pain\"]",
+      "PredictedDisease": "influenza",
+      "ConfidenceScore": 68.6,
+      "PredictionDate": "2026-09-12T08:41:56.078Z"
+    },
+    {
       "PredictionID": "e80ec1f5-3c95-45ce-b9eb-a36cdc66be61",
       "UserID": "ebfa168f-2f05-4321-abf1-baca75d00326",
       "OriginalInput": "[Age: 25, Gender: female] My temperature is extremely high and I've been shivering and sweating heavily with intense muscle aches and throwing up for two days.",

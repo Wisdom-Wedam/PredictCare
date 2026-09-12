@@ -59,7 +59,11 @@ async function authenticateUser(req: express.Request, res: express.Response, nex
 
 // API Routes
 app.get("/api/health", (req, res) => {
-  res.json({ status: "healthy", timestamp: new Date().toISOString() });
+  res.json({ 
+    status: "healthy", 
+    timestamp: new Date().toISOString(),
+    database: db.getStatus()
+  });
 });
 
 // 1. Auth: Register
@@ -233,7 +237,7 @@ Instructions:
         // keyword matcher below.
         const nlpResponse = await Promise.race([
           ai.models.generateContent({
-            model: "gemini-3.5-flash",
+            model: "gemini-3.8-flash",
             contents: `Patient input: "${symptomText}"`,
             config: {
               systemInstruction,
@@ -357,7 +361,7 @@ Format requirements:
       try {
         const explResponse = await Promise.race([
           ai.models.generateContent({
-            model: "gemini-3.5-flash",
+            model: "gemini-3.8-flash",
             contents: "Write the explanation.",
             config: {
               systemInstruction: explanationInstruction
@@ -527,6 +531,7 @@ app.get("/api/admin/stats", authenticateAdmin, async (req, res) => {
 
   res.json({
     ...stats,
+    databaseStatus: db.getStatus(),
     modelPerformance: mlMetrics
   });
 });
@@ -551,9 +556,7 @@ async function startServer() {
   try {
     await db.connect();
   } catch (err) {
-    console.error("Failed to connect to MongoDB:", err);
-    console.error("Ensure MongoDB is running and MONGODB_URI is set correctly in .env");
-    process.exit(1);
+    console.warn("Database initialization warning, running in fallback mode:", err);
   }
 
   if (process.env.NODE_ENV !== "production") {

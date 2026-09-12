@@ -170,9 +170,17 @@ export class BernoulliNaiveBayes {
   }
 
   private loadCsv(fileName: string): LoadedCsv | null {
-    const p = path.join(moduleDir(), "data", fileName);
-    if (!fs.existsSync(p)) return null;
-    return parseCsv(fs.readFileSync(p, "utf-8"));
+    const candidates = [
+      path.join(moduleDir(), "data", fileName),
+      path.join(process.cwd(), "src", "ml", "data", fileName),
+      path.join(process.cwd(), "data", fileName)
+    ];
+    for (const p of candidates) {
+      if (fs.existsSync(p)) {
+        return parseCsv(fs.readFileSync(p, "utf-8"));
+      }
+    }
+    return null;
   }
 
   private csvToSamples(csv: LoadedCsv, colOfKey: Record<string, number>): TrainingSample[] {

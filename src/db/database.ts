@@ -9,7 +9,7 @@ import path from "path";
 import { MongoClient, Db, Collection, Document } from "mongodb";
 import { DISEASES } from "../ml/diseases.js";
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
+const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = process.env.MONGODB_DB_NAME || "predictcare";
 const LEGACY_DB_FILE = path.join(process.cwd(), "src", "db", "data.json");
 
@@ -81,6 +81,62 @@ export function hashPassword(password: string): string {
 class MongoDatabase {
   private client: MongoClient | null = null;
   private db: Db | null = null;
+  private isFallback = true;
+
+  private mockUsers: UserRecord[] = [];
+  private mockPredictions: PredictionRecord[] = [];
+  private mockDiseases: DiseaseRecord[] = [];
+  private mockRecommendations: RecommendationRecord[] = [];
+
+  constructor() {
+    this.initMockData();
+  }
+
+  private initMockData(): void {
+    if (fs.existsSync(LEGACY_DB_FILE)) {
+      try {
+        const raw = JSON.parse(fs.readFileSync(LEGACY_DB_FILE, "utf-8"));
+        this.mockUsers = raw.users || [];
+        this.mockPredictions = raw.predictions || [];
+        this.mockDiseases = raw.diseases || [];
+        this.mockRecommendations = raw.recommendations || [];
+      } catch (err) {
+        console.warn("[AI Studio] Could not load data.json:", err);
+      }
+    }
+
+    if (this.mockDiseases.length === 0) {
+      this.mockDiseases = Object.values(DISEASES).map((info) => ({
+        DiseaseID: info.id,
+        DiseaseName: info.name,
+        Description: info.description
+      }));
+    }
+
+    if (this.mockRecommendations.length === 0) {
+      this.mockRecommendations = Object.values(DISEASES).flatMap((info) =>
+        info.recommendations.map((recText) => ({
+          RecommendationID: crypto.createHash("md5").update(`${info.id}-${recText}`).digest("hex"),
+          DiseaseID: info.id,
+          RecommendationText: recText
+        }))
+      );
+    }
+  }
+
+  private persistMockData(): void {
+    try {
+      const data = {
+        users: this.mockUsers,
+        predictions: this.mockPredictions,
+        diseases: this.mockDiseases,
+        recommendations: this.mockRecommendations
+      };
+      fs.writeFileSync(LEGACY_DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+    } catch (err) {
+      console.warn("[AI Studio] Could not persist to data.json:", err);
+    }
+  }
 
   private collection<T extends Document>(name: string): Collection<T> {
     if (!this.db) {
@@ -89,19 +145,52 @@ class MongoDatabase {
     return this.db.collection<T>(name);
   }
 
+  getStatus() {
+    return {
+      connected: !this.isFallback && this.db !== null,
+      mode: (!this.isFallback && this.db !== null) ? "mongodb" : "local-file-storage",
+      databaseName: DB_NAME,
+      hasUri: Boolean(MONGODB_URI),
+      records: {
+        users: this.mockUsers.length,
+        predictions: this.mockPredictions.length,
+        diseases: this.mockDiseases.length,
+        recommendations: this.mockRecommendations.length
+      }
+    };
+  }
+
   async connect(): Promise<void> {
-    this.client = new MongoClient(MONGODB_URI);
-    await this.client.connect();
-    this.db = this.client.db(DB_NAME);
+    if (!MONGODB_URI) {
+      console.log("[PredictCare Storage] Running in persistent JSON storage mode (data.json). Configure MONGODB_URI to connect to MongoDB.");
+      this.isFallback = true;
+      return;
+    }
 
-    await this.collection<UserRecord>("users").createIndex({ Email: 1 }, { unique: true });
-    await this.collection<PredictionRecord>("predictions").createIndex({ UserID: 1, PredictionDate: -1 });
-    await this.collection<DiseaseRecord>("diseases").createIndex({ DiseaseID: 1 }, { unique: true });
-    await this.collection<RecommendationRecord>("recommendations").createIndex({ RecommendationID: 1 }, { unique: true });
+    try {
+      this.client = new MongoClient(MONGODB_URI, {
+        serverSelectionTimeoutMS: 1500,
+        connectTimeoutMS: 1500
+      });
+      await this.client.connect();
+      this.db = this.client.db(DB_NAME);
 
-    await this.seedDiseasesAndRecommendations();
-    await this.migrateLegacyJsonIfEmpty();
-    console.log(`Connected to MongoDB: ${DB_NAME}`);
+      await this.collection<UserRecord>("users").createIndex({ Email: 1 }, { unique: true });
+      await this.collection<PredictionRecord>("predictions").createIndex({ UserID: 1, PredictionDate: -1 });
+      await this.collection<DiseaseRecord>("diseases").createIndex({ DiseaseID: 1 }, { unique: true });
+      await this.collection<RecommendationRecord>("recommendations").createIndex({ RecommendationID: 1 }, { unique: true });
+
+      await this.seedDiseasesAndRecommendations();
+      await this.migrateLegacyJsonIfEmpty();
+      console.log(`[PredictCare Storage] Connected successfully to MongoDB: ${DB_NAME}`);
+      this.isFallback = false;
+    } catch {
+      // Gracefully continue with persistent local storage
+      console.log("[PredictCare Storage] MongoDB server is unreachable; seamlessly serving requests from persistent storage (data.json).");
+      this.client = null;
+      this.db = null;
+      this.isFallback = true;
+    }
   }
 
   async disconnect(): Promise<void> {
@@ -201,6 +290,29 @@ class MongoDatabase {
 
   async createUser(fullName: string, email: string, passwordPlain: string): Promise<UserRecord> {
     const normalizedEmail = email.toLowerCase();
+
+    if (this.isFallback) {
+      logDbQuery("users", "findOne", { Email: normalizedEmail });
+      const exists = this.mockUsers.find((u) => u.Email === normalizedEmail);
+      if (exists) {
+        throw new Error("Email address is already registered.");
+      }
+
+      const userId = crypto.randomUUID();
+      const newUser: UserRecord = {
+        UserID: userId,
+        FullName: fullName,
+        Email: normalizedEmail,
+        PasswordHash: hashPassword(passwordPlain),
+        DateCreated: new Date().toISOString()
+      };
+
+      this.mockUsers.push(newUser);
+      this.persistMockData();
+      logDbQuery("users", "insertOne", { UserID: userId });
+      return newUser;
+    }
+
     const usersCol = this.collection<UserRecord>("users");
 
     logDbQuery("users", "findOne", { Email: normalizedEmail });
@@ -227,16 +339,27 @@ class MongoDatabase {
 
   async getUserByEmail(email: string): Promise<UserRecord | null> {
     logDbQuery("users", "findOne", { Email: email.toLowerCase() });
+    if (this.isFallback) {
+      return this.mockUsers.find((u) => u.Email === email.toLowerCase()) || null;
+    }
     return this.collection<UserRecord>("users").findOne({ Email: email.toLowerCase() });
   }
 
   async getUserById(userId: string): Promise<UserRecord | null> {
     logDbQuery("users", "findOne", { UserID: userId });
+    if (this.isFallback) {
+      return this.mockUsers.find((u) => u.UserID === userId) || null;
+    }
     return this.collection<UserRecord>("users").findOne({ UserID: userId });
   }
 
   async getUsersList(): Promise<UserRecord[]> {
     logDbQuery("users", "find", {});
+    if (this.isFallback) {
+      return [...this.mockUsers].sort(
+        (a, b) => new Date(b.DateCreated).getTime() - new Date(a.DateCreated).getTime()
+      );
+    }
     return this.collection<UserRecord>("users")
       .find({})
       .sort({ DateCreated: -1 })
@@ -245,6 +368,16 @@ class MongoDatabase {
 
   async updatePassword(userId: string, newPasswordPlain: string): Promise<void> {
     logDbQuery("users", "updateOne", { UserID: userId });
+
+    if (this.isFallback) {
+      const user = this.mockUsers.find((u) => u.UserID === userId);
+      if (!user) {
+        throw new Error("User not found.");
+      }
+      user.PasswordHash = hashPassword(newPasswordPlain);
+      this.persistMockData();
+      return;
+    }
 
     const result = await this.collection<UserRecord>("users").updateOne(
       { UserID: userId },
@@ -278,6 +411,13 @@ class MongoDatabase {
     };
 
     logDbQuery("predictions", "insertOne", { PredictionID: predictionId });
+
+    if (this.isFallback) {
+      this.mockPredictions.unshift(newPred);
+      this.persistMockData();
+      return newPred;
+    }
+
     await this.collection<PredictionRecord>("predictions").insertOne(newPred);
 
     return newPred;
@@ -285,6 +425,11 @@ class MongoDatabase {
 
   async getPredictionsByUserId(userId: string): Promise<PredictionRecord[]> {
     logDbQuery("predictions", "find", { UserID: userId });
+    if (this.isFallback) {
+      return this.mockPredictions
+        .filter((p) => p.UserID === userId)
+        .sort((a, b) => new Date(b.PredictionDate).getTime() - new Date(a.PredictionDate).getTime());
+    }
     return this.collection<PredictionRecord>("predictions")
       .find({ UserID: userId })
       .sort({ PredictionDate: -1 })
@@ -293,11 +438,19 @@ class MongoDatabase {
 
   async getPredictionById(predictionId: string): Promise<PredictionRecord | null> {
     logDbQuery("predictions", "findOne", { PredictionID: predictionId });
+    if (this.isFallback) {
+      return this.mockPredictions.find((p) => p.PredictionID === predictionId) || null;
+    }
     return this.collection<PredictionRecord>("predictions").findOne({ PredictionID: predictionId });
   }
 
   async getPredictionsList(): Promise<PredictionRecord[]> {
     logDbQuery("predictions", "find", {});
+    if (this.isFallback) {
+      return [...this.mockPredictions].sort(
+        (a, b) => new Date(b.PredictionDate).getTime() - new Date(a.PredictionDate).getTime()
+      );
+    }
     return this.collection<PredictionRecord>("predictions")
       .find({})
       .sort({ PredictionDate: -1 })
@@ -307,6 +460,45 @@ class MongoDatabase {
   async getStats() {
     logDbQuery("users", "countDocuments");
     logDbQuery("predictions", "aggregate");
+
+    if (this.isFallback) {
+      const totalUsers = this.mockUsers.length;
+      const totalPredictions = this.mockPredictions.length;
+
+      const counts: Record<string, number> = {};
+      for (const p of this.mockPredictions) {
+        counts[p.PredictedDisease] = (counts[p.PredictedDisease] || 0) + 1;
+      }
+      const commonDiseases = Object.entries(counts)
+        .map(([key, count]) => ({
+          disease: DISEASES[key]?.name || key,
+          count
+        }))
+        .sort((a, b) => b.count - a.count);
+
+      const userMap = new Map(this.mockUsers.map((u) => [u.UserID, u]));
+      const recentRaw = [...this.mockPredictions]
+        .sort((a, b) => new Date(b.PredictionDate).getTime() - new Date(a.PredictionDate).getTime())
+        .slice(0, 5);
+
+      const recentPredictions = recentRaw.map((p) => {
+        const u = userMap.get(p.UserID);
+        return {
+          id: p.PredictionID,
+          userName: u ? u.FullName : "Anonymous",
+          disease: DISEASES[p.PredictedDisease]?.name || p.PredictedDisease,
+          confidence: p.ConfidenceScore,
+          date: p.PredictionDate
+        };
+      });
+
+      return {
+        totalUsers,
+        totalPredictions,
+        commonDiseases,
+        recentPredictions
+      };
+    }
 
     const usersCol = this.collection<UserRecord>("users");
     const predictionsCol = this.collection<PredictionRecord>("predictions");

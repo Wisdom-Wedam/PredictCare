@@ -1,0 +1,446 @@
+{
+  "users": [
+    {
+      "UserID": "ebfa168f-2f05-4321-abf1-baca75d00326",
+      "FullName": "wisdom",
+      "Email": "alagitehwisdom22@gmail.com",
+      "PasswordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "DateCreated": "2026-07-09T19:16:09.427Z"
+    }
+  ],
+  "predictions": [
+    {
+      "PredictionID": "e80ec1f5-3c95-45ce-b9eb-a36cdc66be61",
+      "UserID": "ebfa168f-2f05-4321-abf1-baca75d00326",
+      "OriginalInput": "[Age: 25, Gender: female] My temperature is extremely high and I've been shivering and sweating heavily with intense muscle aches and throwing up for two days.",
+      "ExtractedSymptoms": "[\"high_fever\",\"shivering\",\"sweating\",\"muscle_pain\",\"vomiting\"]",
+      "PredictedDisease": "malaria",
+      "ConfidenceScore": 99.7,
+      "PredictionDate": "2026-07-09T19:16:27.927Z"
+    },
+    {
+      "PredictionID": "a8ed1ba0-4626-40b6-b37e-ce8eec84a54a",
+      "UserID": "ebfa168f-2f05-4321-abf1-baca75d00326",
+      "OriginalInput": "[Age: 23, Gender: female] i have been running since yesterday and anytime a finish eating a vomit\n",
+      "ExtractedSymptoms": "[\"vomiting\"]",
+      "PredictedDisease": "gerd",
+      "ConfidenceScore": 56,
+      "PredictionDate": "2026-07-09T19:26:26.368Z"
+    },
+    {
+      "PredictionID": "172a513f-593e-4b27-acac-d6550be9fdf3",
+      "UserID": "ebfa168f-2f05-4321-abf1-baca75d00326",
+      "OriginalInput": "[Age: 36, Gender: male] i have fever and i ca not even eat well",
+      "ExtractedSymptoms": "[\"high_fever\"]",
+      "PredictedDisease": "asthma",
+      "ConfidenceScore": 68,
+      "PredictionDate": "2026-07-10T10:26:08.526Z"
+    },
+    {
+      "PredictionID": "be9c87d0-75ef-4a63-8780-59efa670d892",
+      "UserID": "ebfa168f-2f05-4321-abf1-baca75d00326",
+      "OriginalInput": "[Age: 26, Gender: male] My temperature is extremely high and I've been shivering and sweating heavily with intense muscle aches and throwing up for two days.",
+      "ExtractedSymptoms": "[\"high_fever\",\"shivering\",\"sweating\",\"muscle_pain\",\"vomiting\"]",
+      "PredictedDisease": "malaria",
+      "ConfidenceScore": 99.4,
+      "PredictionDate": "2026-07-10T10:30:22.735Z"
+    },
+    {
+      "PredictionID": "45b65c84-e139-4907-9ef7-097e470ce4db",
+      "UserID": "ebfa168f-2f05-4321-abf1-baca75d00326",
+      "OriginalInput": "[Age: 23, Gender: female] My temperature is extremely high and I've been shivering and sweating heavily with intense muscle aches and throwing up for two days.",
+      "ExtractedSymptoms": "[\"high_fever\",\"shivering\",\"sweating\",\"muscle_pain\",\"vomiting\"]",
+      "PredictedDisease": "malaria",
+      "ConfidenceScore": 98.6,
+      "PredictionDate": "2026-07-12T19:23:41.498Z"
+    },
+    {
+      "PredictionID": "87f06803-9f76-4c54-b445-d6ac44aa6eb1",
+      "UserID": "ebfa168f-2f05-4321-abf1-baca75d00326",
+      "OriginalInput": "[Age: 34, Gender: male] My temperature is extremely high and I've been shivering and sweating heavily with intense muscle aches and throwing up for two days.",
+      "ExtractedSymptoms": "[\"high_fever\",\"shivering\",\"sweating\",\"muscle_pain\",\"vomiting\"]",
+      "PredictedDisease": "malaria",
+      "ConfidenceScore": 99.6,
+      "PredictionDate": "2026-07-14T08:39:05.599Z"
+    }
+  ],
+  "diseases": [
+    {
+      "DiseaseID": "malaria",
+      "DiseaseName": "Malaria",
+      "Description": "An infectious disease caused by plasmodium parasites, transmitted through the bite of infected female Anopheles mosquitoes. It causes recurrent attacks of chills and fever."
+    },
+    {
+      "DiseaseID": "typhoid",
+      "DiseaseName": "Typhoid Fever",
+      "Description": "A systemic bacterial infection caused by Salmonella typhi, usually contracted by consuming contaminated food or water."
+    },
+    {
+      "DiseaseID": "diabetes",
+      "DiseaseName": "Diabetes Mellitus",
+      "Description": "A chronic metabolic disease characterized by elevated levels of blood glucose, which leads over time to serious damage to the heart, blood vessels, eyes, kidneys, and nerves."
+    },
+    {
+      "DiseaseID": "common_cold",
+      "DiseaseName": "Common Cold",
+      "Description": "A viral infection of your nose and throat (upper respiratory tract). It's usually harmless, although it might not feel that way."
+    },
+    {
+      "DiseaseID": "dengue",
+      "DiseaseName": "Dengue Fever",
+      "Description": "A painful, debilitating mosquito-borne viral disease caused by dengue viruses. Known as 'breakbone fever' due to intense muscle and joint pain."
+    },
+    {
+      "DiseaseID": "asthma",
+      "DiseaseName": "Bronchial Asthma",
+      "Description": "A chronic condition in which your airways narrow and swell, causing extra mucus production. This makes breathing difficult and triggers coughing and wheezing."
+    },
+    {
+      "DiseaseID": "hypertension",
+      "DiseaseName": "Hypertension",
+      "Description": "A chronic condition where the force of the blood against your artery walls is consistently too high, often called a silent killer because it can have no noticeable symptoms."
+    },
+    {
+      "DiseaseID": "migraine",
+      "DiseaseName": "Migraine",
+      "Description": "A neurological condition that can cause multiple symptoms, most notably a throbbing headache on one side of your head, often accompanied by extreme sensitivity to light and sound."
+    },
+    {
+      "DiseaseID": "uti",
+      "DiseaseName": "Urinary Tract Infection",
+      "Description": "An infection in any part of your urinary system, including your kidneys, ureters, bladder, and urethra, most commonly caused by bacteria."
+    },
+    {
+      "DiseaseID": "gerd",
+      "DiseaseName": "GERD (Acid Reflux)",
+      "Description": "A chronic digestive disease where stomach acid or bile flows back into your food pipe (esophagus), irritating its lining."
+    },
+    {
+      "DiseaseID": "pneumonia",
+      "DiseaseName": "Pneumonia",
+      "Description": "An infection that inflames the air sacs in one or both lungs, which may fill with fluid or pus, causing cough with phlegm, fever, chills, and difficulty breathing."
+    },
+    {
+      "DiseaseID": "influenza",
+      "DiseaseName": "Influenza (Flu)",
+      "Description": "A highly contagious viral infection that attacks your respiratory system, causing severe body aches and high fever."
+    },
+    {
+      "DiseaseID": "covid_19",
+      "DiseaseName": "COVID-19",
+      "Description": "A respiratory illness caused by the SARS-CoV-2 virus, which spreads primarily through respiratory droplets."
+    },
+    {
+      "DiseaseID": "allergy",
+      "DiseaseName": "Allergic Rhinitis",
+      "Description": "An allergic response causing itchy eyes, sneezing, runny nose, and sinus pressure, typically triggered by pollen, dust mites, or pet dander."
+    },
+    {
+      "DiseaseID": "food_poisoning",
+      "DiseaseName": "Food Poisoning",
+      "Description": "An illness caused by consuming contaminated, spoiled, or toxic food, leading to gastrointestinal irritation."
+    }
+  ],
+  "recommendations": [
+    {
+      "RecommendationID": "733d26bab34c95ac69301b2ede2a7b6e",
+      "DiseaseID": "malaria",
+      "RecommendationText": "Sleep under insecticide-treated bed nets."
+    },
+    {
+      "RecommendationID": "59c4b874787ab676574be7d1b0a26540",
+      "DiseaseID": "malaria",
+      "RecommendationText": "Seek immediate medical care for blood testing and anti-malarial therapy."
+    },
+    {
+      "RecommendationID": "f5296e781a0d91bf1c6cb7dc86df6112",
+      "DiseaseID": "malaria",
+      "RecommendationText": "Stay hydrated and rest adequately."
+    },
+    {
+      "RecommendationID": "1af6ed0ab9e4a645f294b9a1e7305cee",
+      "DiseaseID": "malaria",
+      "RecommendationText": "Avoid standing water areas to prevent mosquito breeding."
+    },
+    {
+      "RecommendationID": "b2201975f43b939c57bb76de51cf3f09",
+      "DiseaseID": "typhoid",
+      "RecommendationText": "Drink only boiled or bottled water."
+    },
+    {
+      "RecommendationID": "8a49835a9909af972abd21b4f3b79b13",
+      "DiseaseID": "typhoid",
+      "RecommendationText": "Seek medical consultation for stool culture and antibiotic treatment."
+    },
+    {
+      "RecommendationID": "233515a89dd64bd73da74ed7e105bb6a",
+      "DiseaseID": "typhoid",
+      "RecommendationText": "Maintain high personal hygiene and wash hands thoroughly."
+    },
+    {
+      "RecommendationID": "b96f25878ae272196ace81ace78652d2",
+      "DiseaseID": "typhoid",
+      "RecommendationText": "Eat warm, thoroughly cooked food."
+    },
+    {
+      "RecommendationID": "a50953a4c29caf3f8bc698074a66fdd5",
+      "DiseaseID": "diabetes",
+      "RecommendationText": "Monitor blood glucose levels regularly."
+    },
+    {
+      "RecommendationID": "6883dd6c47368dd3f8ba9095bcb67ee0",
+      "DiseaseID": "diabetes",
+      "RecommendationText": "Adopt a balanced low-glycemic, fiber-rich diet."
+    },
+    {
+      "RecommendationID": "7dcf5fef133afd5181ba1d9cb35df27a",
+      "DiseaseID": "diabetes",
+      "RecommendationText": "Engage in regular physical activity."
+    },
+    {
+      "RecommendationID": "00b1df8dab6b992127aa27298533f6a6",
+      "DiseaseID": "diabetes",
+      "RecommendationText": "Consult an endocrinologist for customized insulin or oral medication guidelines."
+    },
+    {
+      "RecommendationID": "68a36c52d286684d17ce7f5efa2865e9",
+      "DiseaseID": "common_cold",
+      "RecommendationText": "Drink plenty of fluids (water, warm tea, broth)."
+    },
+    {
+      "RecommendationID": "72b590b0d2105caaa6dae4624f31ac5b",
+      "DiseaseID": "common_cold",
+      "RecommendationText": "Get plenty of bed rest to help your immune system."
+    },
+    {
+      "RecommendationID": "2c9fa65c8a1ff746dc5e140895c05616",
+      "DiseaseID": "common_cold",
+      "RecommendationText": "Use warm saline gargles for sore throat relief."
+    },
+    {
+      "RecommendationID": "b67b16bea504ae55840d411ccff0fa57",
+      "DiseaseID": "common_cold",
+      "RecommendationText": "Monitor for high fever or worsening symptoms."
+    },
+    {
+      "RecommendationID": "0ddb156ac401404ef466469475250dae",
+      "DiseaseID": "dengue",
+      "RecommendationText": "Stay strictly hydrated; fluid intake is critical for dengue monitoring."
+    },
+    {
+      "RecommendationID": "e5566ba741a024883e799866c0bab63a",
+      "DiseaseID": "dengue",
+      "RecommendationText": "Consult a doctor immediately for complete blood count (platelet count) monitoring."
+    },
+    {
+      "RecommendationID": "e221c0d05593baf98a34f8968dd659ba",
+      "DiseaseID": "dengue",
+      "RecommendationText": "Use mosquito repellents and wear protective clothing."
+    },
+    {
+      "RecommendationID": "8ec5648e8cf7c9d4a78935c8cec00608",
+      "DiseaseID": "dengue",
+      "RecommendationText": "Avoid NSAIDs like aspirin or ibuprofen as they can worsen bleeding risks; use acetaminophen if recommended."
+    },
+    {
+      "RecommendationID": "2f38b4bbed295f514225a4e5504660cc",
+      "DiseaseID": "asthma",
+      "RecommendationText": "Always keep your rescue inhaler handy."
+    },
+    {
+      "RecommendationID": "a89b3743d9ee826c390fd97d34b5b059",
+      "DiseaseID": "asthma",
+      "RecommendationText": "Avoid triggers like cold air, smoke, or intense dust."
+    },
+    {
+      "RecommendationID": "c4f3ad4894e0d0913f71a85731cce5ef",
+      "DiseaseID": "asthma",
+      "RecommendationText": "Follow your asthma action plan as created by your physician."
+    },
+    {
+      "RecommendationID": "9d8c25d681fb75cfea924ce1737989de",
+      "DiseaseID": "asthma",
+      "RecommendationText": "If wheezing becomes severe or persistent, seek emergency medical care."
+    },
+    {
+      "RecommendationID": "5d8908b93fbc35bb12ffacf1c566e14f",
+      "DiseaseID": "hypertension",
+      "RecommendationText": "Measure blood pressure daily and maintain a log."
+    },
+    {
+      "RecommendationID": "9fe24a4cf627337cf6fbba288b2f38bd",
+      "DiseaseID": "hypertension",
+      "RecommendationText": "Reduce sodium (salt) intake dramatically."
+    },
+    {
+      "RecommendationID": "7ed67ec01004e596dfc9f40a5b9e0cc5",
+      "DiseaseID": "hypertension",
+      "RecommendationText": "Avoid smoking, caffeine, and heavy alcohol usage."
+    },
+    {
+      "RecommendationID": "f1d5e3a33ef7b86b98e72cbbb761e7a9",
+      "DiseaseID": "hypertension",
+      "RecommendationText": "Practice stress-relief techniques and take prescribed antihypertensive medication regularly."
+    },
+    {
+      "RecommendationID": "53c7afe71608f6ae7e9fc9ffb017386b",
+      "DiseaseID": "migraine",
+      "RecommendationText": "Rest in a quiet, dark, cool room during attacks."
+    },
+    {
+      "RecommendationID": "f2fd36f41321570745588ba3af2c51da",
+      "DiseaseID": "migraine",
+      "RecommendationText": "Apply a cold compress or ice pack to your forehead or temples."
+    },
+    {
+      "RecommendationID": "c58ce66cb4b7aa1838cc586ad882992a",
+      "DiseaseID": "migraine",
+      "RecommendationText": "Keep a headache journal to track and avoid triggers."
+    },
+    {
+      "RecommendationID": "e6d003c86a9a1cb2282151a31bee9595",
+      "DiseaseID": "migraine",
+      "RecommendationText": "Ensure regular sleep schedules and drink plenty of water."
+    },
+    {
+      "RecommendationID": "8dc8062b1d654763ea0a69447dad3e74",
+      "DiseaseID": "uti",
+      "RecommendationText": "Drink a large volume of water daily to help flush out bacteria."
+    },
+    {
+      "RecommendationID": "07c55dfaae32522ad32ff0e6c3aed7d3",
+      "DiseaseID": "uti",
+      "RecommendationText": "Consult a medical provider for a urine test and proper antibiotic course."
+    },
+    {
+      "RecommendationID": "99330ba163b8299140719fed27079310",
+      "DiseaseID": "uti",
+      "RecommendationText": "Avoid caffeine and spicy foods which can irritate the bladder."
+    },
+    {
+      "RecommendationID": "190c4e32e325e5ae6930ac4fd3427c59",
+      "DiseaseID": "uti",
+      "RecommendationText": "Maintain proper personal hygiene."
+    },
+    {
+      "RecommendationID": "ae5ef0ee991c609976b64f13dc80b784",
+      "DiseaseID": "gerd",
+      "RecommendationText": "Eat smaller, more frequent meals rather than large feasts."
+    },
+    {
+      "RecommendationID": "861e96292218ecf516ff0ddee4d0716c",
+      "DiseaseID": "gerd",
+      "RecommendationText": "Avoid lying down for at least 2-3 hours after eating."
+    },
+    {
+      "RecommendationID": "bad8a91450dafad49711ccc8c49cf360",
+      "DiseaseID": "gerd",
+      "RecommendationText": "Elevate the head of your bed by 6-9 inches."
+    },
+    {
+      "RecommendationID": "a018ca1dd9c68c6082b1a20c8ab4db4c",
+      "DiseaseID": "gerd",
+      "RecommendationText": "Avoid trigger foods (fried/fatty items, chocolate, mint, tomato sauces)."
+    },
+    {
+      "RecommendationID": "ee2f7baa2650ebc0125893c1e3c7220f",
+      "DiseaseID": "pneumonia",
+      "RecommendationText": "Consult a doctor immediately for diagnostic imaging (chest X-ray) and targeted therapy."
+    },
+    {
+      "RecommendationID": "03b9b137e8d12a898adf5dad60ab04e3",
+      "DiseaseID": "pneumonia",
+      "RecommendationText": "Get plenty of rest and stay hydrated."
+    },
+    {
+      "RecommendationID": "c9ab4be22d4032f92492ed6150501c70",
+      "DiseaseID": "pneumonia",
+      "RecommendationText": "Do not take cough suppressants without consulting a doctor, as coughing helps clear lungs."
+    },
+    {
+      "RecommendationID": "5754fc782283e72fa05702f2ff9ce819",
+      "DiseaseID": "pneumonia",
+      "RecommendationText": "Use a humidifier or inhale steam to loosen phlegm."
+    },
+    {
+      "RecommendationID": "cfebd8d67ab2c9d50f81b532fec55d3c",
+      "DiseaseID": "influenza",
+      "RecommendationText": "Isolate to prevent spreading the infection to others."
+    },
+    {
+      "RecommendationID": "4e076645ca3fa5caa0e79a019adde627",
+      "DiseaseID": "influenza",
+      "RecommendationText": "Stay hydrated with warm fluids."
+    },
+    {
+      "RecommendationID": "30bac63053fd4fc748cccad947d86595",
+      "DiseaseID": "influenza",
+      "RecommendationText": "Rest in bed until fever resolves for at least 24 hours."
+    },
+    {
+      "RecommendationID": "65f3c2bae5ab414869f4b469575f2f72",
+      "DiseaseID": "influenza",
+      "RecommendationText": "Seek medical advice for antiviral prescriptions if within 48 hours of onset."
+    },
+    {
+      "RecommendationID": "34c909c9b8fbc217fbdcb157b95ba143",
+      "DiseaseID": "covid_19",
+      "RecommendationText": "Isolate in a well-ventilated room."
+    },
+    {
+      "RecommendationID": "9538036f4ac870d2dc08f753c9990858",
+      "DiseaseID": "covid_19",
+      "RecommendationText": "Monitor blood oxygen levels (SpO2) using a pulse oximeter."
+    },
+    {
+      "RecommendationID": "80e40abc2aa22ac5a5270a0dbcfb2170",
+      "DiseaseID": "covid_19",
+      "RecommendationText": "Seek emergency medical help if you experience chest pain or breathing difficulties."
+    },
+    {
+      "RecommendationID": "d6574231f64eaf0e1c7d90b4e66a2ab5",
+      "DiseaseID": "covid_19",
+      "RecommendationText": "Wear a mask and practice hand hygiene."
+    },
+    {
+      "RecommendationID": "90928b20670c5cc6bdecca66ed35fdc5",
+      "DiseaseID": "allergy",
+      "RecommendationText": "Identify and avoid known allergens (dust, pollen, mold)."
+    },
+    {
+      "RecommendationID": "eb75f87aec3c236890c1a23109459546",
+      "DiseaseID": "allergy",
+      "RecommendationText": "Keep indoor spaces clean and vacuumed."
+    },
+    {
+      "RecommendationID": "4b36f7ace472f84f88a8aeed3f86fe5f",
+      "DiseaseID": "allergy",
+      "RecommendationText": "Wash bedding frequently in hot water."
+    },
+    {
+      "RecommendationID": "3e8436d18cd0be14ec6e0a7041654a56",
+      "DiseaseID": "allergy",
+      "RecommendationText": "Consult an allergist for targeted antihistamine or immunotherapy options."
+    },
+    {
+      "RecommendationID": "22b8c49d36d678886c59383043629ea8",
+      "DiseaseID": "food_poisoning",
+      "RecommendationText": "Sip oral rehydration salts (ORS) slowly to maintain electrolyte balance."
+    },
+    {
+      "RecommendationID": "4752d2a759de1ebd969e80fa15219f42",
+      "DiseaseID": "food_poisoning",
+      "RecommendationText": "Avoid solid foods for a few hours until vomiting stops."
+    },
+    {
+      "RecommendationID": "5a940e820cb6814d517a7ffd1c81454f",
+      "DiseaseID": "food_poisoning",
+      "RecommendationText": "Gradually reintroduce bland foods (toast, rice, bananas)."
+    },
+    {
+      "RecommendationID": "88cc6cf1d8f4bdd4260e56bb66302932",
+      "DiseaseID": "food_poisoning",
+      "RecommendationText": "Consult a physician if you see blood in stool or have high fever."
+    }
+  ]
+}

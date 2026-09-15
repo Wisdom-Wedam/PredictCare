@@ -1,0 +1,6 @@
+{
+  "name": "PredictCare",
+  "description": "Disease prediction and health assistant application powered by machine learning and AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
